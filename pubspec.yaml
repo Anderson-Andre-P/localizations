@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  geolocator:
+  geocoding:
 
 dev_dependencies:
   flutter_test:
