@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   geolocator:
   geocoding:
+  connectivity_plus:
+  lottie:
+  google_fonts:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +23,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
