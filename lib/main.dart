@@ -15,8 +15,27 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   final LocationHelper _locationHelper = LocationHelper();
 
+  String _location = 'No data';
+  bool _isLoading = true;
+
   Future<void> getUserLocation() async {
-    await _locationHelper.getUserLocation();
+    setState(() {
+      _isLoading = true;
+    });
+    final locationData = await _locationHelper.getUserLocation();
+
+    if (locationData != null) {
+      setState(() {
+        _location =
+            'Latitude ${locationData['latitude']}, Longitude: ${locationData['longitude']}';
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _location = 'Location not found';
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -27,10 +46,23 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: _isLoading
+              ? CircularProgressIndicator()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(_location),
+                    ElevatedButton(
+                      onPressed: () {
+                        getUserLocation();
+                      },
+                      child: Text('Refresh Location'),
+                    ),
+                  ],
+                ),
         ),
       ),
     );
